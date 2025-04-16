@@ -13,30 +13,28 @@ module.exports = {
 		}
 	},
 	getCashLimitForPos: async (req, res) => {
-		const { posID } = req.params;
+		const { date } = req.query;
 		try {
-			const data = await transactionService.fetchCashLimitForPos(posID);
+			const data = await transactionService.fetchCashLimitForPos(date);
 			res.status(200).json(data);
 		} catch (error) {
 			res.status(error.status || 500).json({ message: error.message });
 		}
 	},
 	getAgentBankingLimit: async (req, res) => {
-		const { agentId } = req.params;
+		const { date } = req.query;
 		try {
-			const data = await transactionService.fetchAgentBankingLimit(
-				agentId
-			);
+			const data = await transactionService.fetchAgentBankingLimit(date);
 			res.status(200).json(data);
 		} catch (error) {
 			res.status(error.status || 500).json({ message: error.message });
 		}
 	},
 	getCumulativeCashLimit: async (req, res) => {
-		const { agentId1 } = req.params;
+		const { date } = req.query;
 		try {
 			const data = await transactionService.fetchCumulativeCashLimit(
-				agentId1
+				date
 			);
 			res.status(200).json(data);
 		} catch (error) {
@@ -44,20 +42,16 @@ module.exports = {
 		}
 	},
 	getMerchantCompliance: async (req, res) => {
-		const { merchantId } = req.params;
 		try {
-			const data = await transactionService.fetchMerchantCompliance(
-				merchantId
-			);
+			const data = await transactionService.fetchMerchantCompliance();
 			res.status(200).json(data);
 		} catch (error) {
 			res.status(error.status || 500).json({ message: error.message });
 		}
 	},
 	getAgentCompliance: async (req, res) => {
-		const { agentId } = req.params;
 		try {
-			const data = await transactionService.fetchAgentCompliance(agentId);
+			const data = await transactionService.fetchAgentCompliance();
 			res.status(200).json(data);
 		} catch (error) {
 			res.status(error.status || 500).json({ message: error.message });

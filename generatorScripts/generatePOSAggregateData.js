@@ -9,10 +9,35 @@ const generateDummyData = () => {
 		(_, i) => `POS_${(i + 1).toString().padStart(3, "0")}`
 	);
 
+	// List of predefined card numbers
+	const cardNumbers = [
+		"12345678",
+		"12345679",
+		"12345680",
+		"12345681",
+		"12345682",
+		"12345683",
+		"12345684",
+		"12345685",
+		"12345686",
+		"12345687",
+		"12345688",
+		"12345689",
+		"12345690",
+		"12345691",
+		"12345692",
+		"12345693",
+		"12345694",
+		"12345695",
+		"12345696",
+		"12345697",
+		"12345698",
+		"12345699",
+		"12345700",
+	];
+
 	for (let i = 1; i <= 1000; i++) {
-		const cardNumber = Math.floor(
-			10000000 + Math.random() * 90000000
-		).toString(); // Random 8-digit card number
+		// Random card number from the list
 		const posId = posIds[Math.floor(Math.random() * posIds.length)]; // Random POS_ID
 		const date = new Date(
 			startDate.getTime() + Math.random() * (endDate - startDate)
@@ -26,7 +51,9 @@ const generateDummyData = () => {
 		]; // Random transaction type
 
 		rows.push(
-			`('${cardNumber}', '${posId}', '${formattedDate}', ${hour}, ${volume}, ${count}, '${transactionType}')`
+			`('${
+				cardNumbers[Math.floor(Math.random() * cardNumbers.length)]
+			}', '${posId}', '${formattedDate}', ${hour}, ${volume}, ${count}, '${transactionType}')`
 		);
 	}
 	return rows;

@@ -8,25 +8,15 @@ router.get(
 	transactionController.getTransactionDetails
 );
 
-router.get("/cashlimit/pos/:posID", transactionController.getCashLimitForPos);
+router.get("/cashlimit/pos", transactionController.getCashLimitForPos);
+router.get("/cashlimit/agent", transactionController.getAgentBankingLimit);
 router.get(
-	"/cashlimit/agent/:agentId",
-	transactionController.getAgentBankingLimit
-);
-
-router.get(
-	"/cashlimit/agent/cumulative/:agentId1",
+	"/cashlimit/agent/cumulative",
 	transactionController.getCumulativeCashLimit
 );
-router.get(
-	"/compliance/merchant/:merchantId",
-	transactionController.getMerchantCompliance
-);
 
-router.get(
-	"/compliance/agent/:agentId",
-	transactionController.getAgentCompliance
-);
+router.get("/compliance/merchant", transactionController.getMerchantCompliance);
+router.get("/compliance/agent", transactionController.getAgentCompliance);
 
 router.get(
 	"/topcashincashout/merchant",

@@ -53,3 +53,26 @@ model MerchantAgentInventory {
   category           String
   location           String
 }
+
+model MerchantAgentDetails {
+  id        Int      @id @default(autoincrement())
+  bvn       String?   // Bank Verification Number
+  bankCode  String   // Bank Code
+  code      String   // Merchant or Agent Code
+  category  String   // Category (e.g., Merchant or Agent)
+  nin       String?  // National Identification Number (optional)
+  tin       String?  // Tax Identification Number (optional)
+}
+
+model Cardholder {
+  id        Int      @id @default(autoincrement())
+  bvn       String  // Bank Verification Number (optional)
+  bankCode  String   // Bank Code
+  cardNumber String  // Card Number
+}
+
+model ISO8583TransactionLog {
+  id             Int      @id @default(autoincrement())
+  transactionId  String   @unique // Unique identifier for the transaction
+  ISO8583Log     String   // Log data in ISO8583 format
+}
