@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const fetchAgentTopCashInCashOut = async (startDate, endDate) => {
-	const volumeResults = await prisma.pOSAggregate.groupBy({
+	const countResults = await prisma.pOSAggregate.groupBy({
 		by: ["transactionType", "posId"],
 		_sum: {
 			volume: true,
@@ -28,8 +28,8 @@ const fetchAgentTopCashInCashOut = async (startDate, endDate) => {
 			},
 		},
 		orderBy: {
-			_sum: {
-				volume: "desc",
+			_count: {
+				id: "desc",
 			},
 		},
 		take: 100,
@@ -38,7 +38,7 @@ const fetchAgentTopCashInCashOut = async (startDate, endDate) => {
 	const agentDetails = await prisma.merchantAgentInventory.findMany({
 		where: {
 			posId: {
-				in: volumeResults.map((result) => result.posId),
+				in: countResults.map((result) => result.posId),
 			},
 		},
 		select: {
@@ -58,7 +58,7 @@ const fetchAgentTopCashInCashOut = async (startDate, endDate) => {
 		return map;
 	}, {});
 
-	return volumeResults.map((result) => ({
+	return countResults.map((result) => ({
 		transactionType: result.transactionType,
 		posId: result.posId,
 		merchantAgentCode: agentMap[result.posId]?.merchantAgentCode || null,

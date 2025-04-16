@@ -1,6 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const fetchMerchantTopCounts = require("./fetchMerchantTopCounts");
+const fetchAgentTopCounts = require("./fetchAgentTopCounts");
+
 const fetchMerchantTopCashInCashOut = require("./fetchMerchantTopCashInCashOut");
 const fetchAgentTopCashInCashOut = require("./fetchAgentTopCashInCashOut");
 const fetchCashLimitForPos = require("./fetchCashLimitForPos");
@@ -27,4 +30,7 @@ module.exports = {
 
 	fetchMerchantTopCashInCashOut,
 	fetchAgentTopCashInCashOut,
+
+	fetchAgentTopCounts,
+	fetchMerchantTopCounts,
 };

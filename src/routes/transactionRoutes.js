@@ -19,12 +19,20 @@ router.get("/compliance/merchant", transactionController.getMerchantCompliance);
 router.get("/compliance/agent", transactionController.getAgentCompliance);
 
 router.get(
-	"/topcashincashout/merchant",
+	"/topcashincashout/merchant/volume",
 	transactionController.getMerchantTopCashInCashOut
 );
 router.get(
-	"/topcashincashout/agent",
+	"/topcashincashout/agent/volume",
 	transactionController.getAgentTopCashInCashOut
+);
+router.get(
+	"/topcashincashout/merchant/count",
+	transactionController.getMerchantTopCount
+);
+router.get(
+	"/topcashincashout/agent/count",
+	transactionController.getAgentTopCount
 );
 
 module.exports = router;
