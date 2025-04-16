@@ -24,20 +24,20 @@ my-node-backend
 
 1. Clone the repository:
 
-   ```
-   git clone <repository-url>
-   ```
+    ```
+    git clone <repository-url>
+    ```
 
 2. Navigate to the project directory:
 
-   ```
-   cd my-node-backend
-   ```
+    ```
+    cd my-node-backend
+    ```
 
 3. Install the dependencies:
-   ```
-   npm install
-   ```
+    ```
+    npm install
+    ```
 
 ## Usage
 
@@ -45,16 +45,16 @@ my-node-backend
 
 2. Start the application:
 
-   ```
-   npm start
-   ```
+    ```
+    npm start
+    ```
 
 3. The server will run on `http://localhost:3000` by default.
 
 ## API Endpoints
 
-- `GET /example` - Fetch example data
-- `POST /example` - Create new example data
+-   `GET /example` - Fetch example data
+-   `POST /example` - Create new example data
 
 ## Contributing
 

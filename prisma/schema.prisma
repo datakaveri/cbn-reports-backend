@@ -33,3 +33,23 @@ model POSCashLimit {
   cumulativeValue    Float
   period             String   // "day" or "week"
 }
+
+model POSAggregate {
+  id                Int      @id @default(autoincrement())
+  cardNumber        String
+  posId             String
+  date              DateTime
+  hour              Int
+  volume            Float
+  count             Int
+  transactionType   String
+}
+
+model MerchantAgentInventory {
+  id                 Int      @id @default(autoincrement())
+  bankCode           String
+  posId              String
+  merchantAgentCode  String
+  category           String
+  location           String
+}
