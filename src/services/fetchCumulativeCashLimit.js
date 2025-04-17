@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 
 const fetchCumulativeCashLimit = async (startDate, endDate) => {
 	try {
+		Logger.info("Fetching cumulative cash limit");
 		// Fetch cumulative cash limit grouped by cardNumber
 		const results = await prisma.pOSAggregate.groupBy({
 			by: ["cardNumber", "date"], // Group by cardNumber and date
@@ -66,7 +67,7 @@ const fetchCumulativeCashLimit = async (startDate, endDate) => {
 		// Convert the grouped results to an array
 		return Object.values(groupedResults);
 	} catch (error) {
-		console.error("Error in fetchCumulativeCashLimit:", error);
+		logger.error("Error fetching cumulative cash limit: ", error);
 		throw error;
 	}
 };
