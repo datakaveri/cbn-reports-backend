@@ -1,11 +1,11 @@
 const { PrismaClient } = require("@prisma/client");
+const logger = require("../../utils/logger");
 const prisma = new PrismaClient();
 
 const fetchMerchantTopCashInCashOut = async (startDate, endDate) => {
 	try {
-		logger.info("Fetching Merchant Top Cash In/Out");
-
-		const countResults = await prisma.pOSAggregate.groupBy({
+		logger.info("Fetching top cash in and cash out for merchants");
+		const volumeResults = await prisma.pOSAggregate.groupBy({
 			by: ["transactionType", "posId"],
 			_sum: {
 				volume: true,
@@ -31,8 +31,8 @@ const fetchMerchantTopCashInCashOut = async (startDate, endDate) => {
 				},
 			},
 			orderBy: {
-				_count: {
-					id: "desc",
+				_sum: {
+					volume: "desc",
 				},
 			},
 			take: 100,
@@ -41,7 +41,7 @@ const fetchMerchantTopCashInCashOut = async (startDate, endDate) => {
 		const merchantDetails = await prisma.merchantAgentInventory.findMany({
 			where: {
 				posId: {
-					in: countResults.map((result) => result.posId),
+					in: volumeResults.map((result) => result.posId),
 				},
 			},
 			select: {
@@ -61,7 +61,7 @@ const fetchMerchantTopCashInCashOut = async (startDate, endDate) => {
 			return map;
 		}, {});
 
-		return countResults.map((result) => ({
+		return volumeResults.map((result) => ({
 			transactionType: result.transactionType,
 			posId: result.posId,
 			merchantAgentCode:
@@ -72,8 +72,11 @@ const fetchMerchantTopCashInCashOut = async (startDate, endDate) => {
 			count: result._count.id,
 		}));
 	} catch (error) {
-		logger.error("Error fetching Merchant Top Cash In/Out: ", error);
-		throw new errpr();
+		logger.error(
+			"Error fetching top cash in and cash out for merchants: ",
+			error
+		);
+		throw new error();
 	}
 };
 

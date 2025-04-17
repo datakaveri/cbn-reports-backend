@@ -76,3 +76,11 @@ model ISO8583TransactionLog {
   transactionId  String   @unique // Unique identifier for the transaction
   ISO8583Log     String   // Log data in ISO8583 format
 }
+
+model TransactionLimit {
+  id        Int      @id @default(autoincrement())
+  person    String   // e.g., Customer, CumulativeAgent
+  type      String   // e.g., Withdrawal, Transaction
+  grain     String   // e.g., Day, Week
+  limit     Float    // e.g., 500000, 100000
+}

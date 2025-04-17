@@ -1,5 +1,5 @@
 const swaggerUi = require("swagger-ui-express");
-const docsService = require("../services/docsService");
+const docsService = require("../services/docs/docsService");
 
 const serveDocs = (req, res, next) => {
 	try {

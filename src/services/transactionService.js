@@ -1,25 +1,19 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const fetchTransactionDetails = require("./transaction/fetchTransactionDetails");
+const fetchMerchantTopCounts = require("./topCounts/fetchMerchantTopCounts");
+const fetchAgentTopCounts = require("./topCounts/fetchAgentTopCounts");
 
-const fetchMerchantTopCounts = require("./fetchMerchantTopCounts");
-const fetchAgentTopCounts = require("./fetchAgentTopCounts");
-
-const fetchMerchantTopCashInCashOut = require("./fetchMerchantTopCashInCashOut");
-const fetchAgentTopCashInCashOut = require("./fetchAgentTopCashInCashOut");
-const fetchCashLimitForPos = require("./fetchCashLimitForPos");
-const fetchAgentBankingLimit = require("./fetchAgentBankingLimit");
-const fetchCumulativeCashLimit = require("./fetchCumulativeCashLimit");
+const fetchMerchantTopCashInCashOut = require("./cashInCashOut/fetchMerchantTopCashInCashOut");
+const fetchAgentTopCashInCashOut = require("./cashInCashOut/fetchAgentTopCashInCashOut");
+const fetchCashLimitForPos = require("./cashLimit/fetchCashLimitForPos");
+const fetchAgentBankingLimit = require("./cashLimit/fetchAgentBankingLimit");
+const fetchCumulativeCashLimit = require("./cashLimit/fetchCumulativeCashLimit");
 const {
 	fetchMerchantCompliance,
 	fetchAgentCompliance,
-} = require("./complianceService");
+} = require("./compliance/complianceService");
 
 module.exports = {
-	fetchTransactionDetails: async (transactionId) => {
-		return await prisma.transaction.findUnique({
-			where: { transactionId },
-		});
-	},
+	fetchTransactionDetails,
 
 	fetchCashLimitForPos,
 	fetchAgentBankingLimit,

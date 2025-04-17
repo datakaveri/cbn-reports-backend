@@ -1,6 +1,9 @@
 const express = require("express");
 const swaggerUi = require("swagger-ui-express");
 const transactionController = require("../controllers/transactionController");
+const cashLimitController = require("../controllers/cashLimitController");
+const complianceController = require("../controllers/complianceController");
+const topCountsController = require("../controllers/topCountsController");
 const docsController = require("../controllers/docsController");
 const logger = require("../utils/logger");
 
@@ -18,31 +21,31 @@ router.get(
 	transactionController.getTransactionDetails
 );
 
-router.get("/cashlimit/pos", transactionController.getCashLimitForPos);
-router.get("/cashlimit/agent", transactionController.getAgentBankingLimit);
+router.get("/cashlimit/pos", cashLimitController.getCashLimitForPos);
+router.get("/cashlimit/agent", cashLimitController.getAgentBankingLimit);
 router.get(
 	"/cashlimit/agent/cumulative",
-	transactionController.getCumulativeCashLimit
+	cashLimitController.getCumulativeCashLimit
 );
 
-router.get("/compliance/merchant", transactionController.getMerchantCompliance);
-router.get("/compliance/agent", transactionController.getAgentCompliance);
+router.get("/compliance/merchant", complianceController.getMerchantCompliance);
+router.get("/compliance/agent", complianceController.getAgentCompliance);
 
 router.get(
 	"/topcashincashout/merchant/volume",
-	transactionController.getMerchantTopCashInCashOut
+	topCountsController.getMerchantTopCashInCashOut
 );
 router.get(
 	"/topcashincashout/agent/volume",
-	transactionController.getAgentTopCashInCashOut
+	topCountsController.getAgentTopCashInCashOut
 );
 router.get(
 	"/topcashincashout/merchant/count",
-	transactionController.getMerchantTopCount
+	topCountsController.getMerchantTopCount
 );
 router.get(
 	"/topcashincashout/agent/count",
-	transactionController.getAgentTopCount
+	topCountsController.getAgentTopCount
 );
 
 // Add /docs route to serve Swagger documentation

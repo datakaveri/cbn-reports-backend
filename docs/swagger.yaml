@@ -1,288 +1,227 @@
 openapi: 3.0.0
 info:
-  title: Transaction API
-  description: API for retrieving transaction details.
-  version: 1.0.0
+    title: Transaction API
+    description: API for retrieving transaction details, cash limits, compliance, and top cash-in/cash-out data.
+    version: 1.0.0
 servers:
-  - url: https://api.example.com/v1
+    - url: http://localhost:3000/api
+    - url: https://dashboard.idx-ng.com/cbn-reports/
 paths:
-  /transaction/{transactionId}:
-    get:
-      tags:
-        - Transaction
-      summary: Get transaction details
-      description: Retrieve details of a specific transaction by transaction ID.
-      parameters:
-        - name: transactionId
-          in: path
-          required: true
-          description: The ID of the transaction to retrieve.
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
-  /cashlimit/{posID}:
-    get:
-      tags:
-        - CashLimit
-      summary: Get cash limit for a pos
-      description: Pos limit is 500,000 per week per customer
-      parameters:
-        - name: posID
-          in: path
-          required: true
-          description: BVN of the pos
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
-  /cashlimit/{agentId}:
-    get:
-      tags:
-        - CashLimit
-      summary: Agent banking terminals
-      description: Limit of transaction cashout is 100,000 per day per customer
-      parameters:
-        - name: agentId
-          in: path
-          required: true
-          description: ID of the Agent
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
-  /cashlimit/{agentId1}:
-    get:
-      tags:
-        - CashLimit
-      summary: Get cumulative cash limit for a transaction
-      description: Retrieve details of a specific transaction by transaction ID.
-      parameters:
-        - name: agentId1
-          in: path
-          required: true
-          description: Id of the agent
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
-  /compliance/{merchantId}:
-    get:
-      tags:
-        - Compliance
-      summary: Get cash limit for a transaction
-      description: Retrieve details of a specific transaction by transaction ID.
-      parameters:
-        - name: merchantId
-          in: path
-          required: true
-          description: Id of the merchant
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
-  /compliance/{agentId}:
-    get:
-      tags:
-        - Compliance
-      summary: Get cash limit for a transaction
-      description: Retrieve details of a specific transaction by transaction ID.
-      parameters:
-        - name: agentId
-          in: path
-          required: true
-          description: Id of the agent
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
-  /topcashincashout/{merchantId}:
-    get:
-      tags:
-        - Top Cash in Cash Out
-      summary: Get cash limit for a transaction
-      description: Retrieve details of a specific transaction by transaction ID.
-      parameters:
-        - name: merchantId
-          in: path
-          required: true
-          description: Id of the merchant
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
-  /topcashincashout/{agentId}:
-    get:
-      tags:
-        - Top Cash in Cash Out
-      summary: Get cash limit for a transaction
-      description: Retrieve details of a specific transaction by transaction ID.
-      parameters:
-        - name: agentId
-          in: path
-          required: true
-          description: Id of the agent
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successful response with transaction details
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  transactionId:
-                    type: string
-                    description: The unique identifier of the transaction.
-                  transactionDate:
-                    type: string
-                    format: date-time
-                    description: The date when the transaction occurred.
-                  transactionPlage:
-                    type: string
-                    description: Additional information about the transaction.
-        "404":
-          description: Transaction not found
-        "500":
-          description: Internal server error
+    /transaction/{transactionId}:
+        get:
+            tags:
+                - Transaction
+            summary: Get transaction details
+            description: Retrieve details of a specific transaction by transaction ID.
+            parameters:
+                - name: transactionId
+                  in: path
+                  required: true
+                  description: The ID of the transaction to retrieve.
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Successful response with transaction details
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    transactionId:
+                                        type: string
+                                        description: The unique identifier of the transaction.
+                                    transactionDate:
+                                        type: string
+                                        format: date-time
+                                        description: The date when the transaction occurred.
+                                    transactionAmount:
+                                        type: number
+                                        description: The amount involved in the transaction.
+                "404":
+                    description: Transaction not found
+                "500":
+                    description: Internal server error
+
+    /cashlimit/pos:
+        get:
+            tags:
+                - CashLimit
+            summary: Get cash limit for POS
+            description: Retrieve the cash limit for POS terminals within a specific range.
+            parameters:
+                - name: startDate
+                  in: query
+                  required: true
+                  description: Start date for the range.
+                  schema:
+                      type: string
+                      format: date
+                - name: endDate
+                  in: query
+                  required: true
+                  description: End date for the range.
+                  schema:
+                      type: string
+                      format: date
+            responses:
+                "200":
+                    description: Successful response with cash limit details
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        posId:
+                                            type: string
+                                            description: The ID of the POS terminal.
+                                        transactionSum:
+                                            type: number
+                                            description: Total transaction volume.
+                                        percentage:
+                                            type: number
+                                            description: Percentage of the cash limit used.
+                "500":
+                    description: Internal server error
+
+    /cashlimit/agent:
+        get:
+            tags:
+                - CashLimit
+            summary: Get cash limit for agents
+            description: Retrieve the cash limit for agent banking terminals.
+            parameters:
+                - name: startDate
+                  in: query
+                  required: true
+                  description: Start date for the range.
+                  schema:
+                      type: string
+                      format: date
+                - name: endDate
+                  in: query
+                  required: true
+                  description: End date for the range.
+                  schema:
+                      type: string
+                      format: date
+            responses:
+                "200":
+                    description: Successful response with agent cash limit details
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        agentId:
+                                            type: string
+                                            description: The ID of the agent.
+                                        transactionSum:
+                                            type: number
+                                            description: Total transaction volume.
+                "500":
+                    description: Internal server error
+
+    /compliance/merchant:
+        get:
+            tags:
+                - Compliance
+            summary: Get merchant compliance details
+            description: Retrieve compliance details for merchants.
+            responses:
+                "200":
+                    description: Successful response with merchant compliance details
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        merchantId:
+                                            type: string
+                                            description: The ID of the merchant.
+                                        complianceStatus:
+                                            type: string
+                                            description: Compliance status of the merchant.
+                "500":
+                    description: Internal server error
+
+    /compliance/agent:
+        get:
+            tags:
+                - Compliance
+            summary: Get agent compliance details
+            description: Retrieve compliance details for agents.
+            responses:
+                "200":
+                    description: Successful response with agent compliance details
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        agentId:
+                                            type: string
+                                            description: The ID of the agent.
+                                        complianceStatus:
+                                            type: string
+                                            description: Compliance status of the agent.
+                "500":
+                    description: Internal server error
+
+    /topcashincashout/merchant/volume:
+        get:
+            tags:
+                - Top Cash in Cash Out
+            summary: Get top merchants by transaction volume
+            description: Retrieve the top merchants based on transaction volume.
+            responses:
+                "200":
+                    description: Successful response with merchant transaction volume details
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        merchantId:
+                                            type: string
+                                            description: The ID of the merchant.
+                                        transactionVolume:
+                                            type: number
+                                            description: Total transaction volume.
+                "500":
+                    description: Internal server error
+
+    /topcashincashout/agent/volume:
+        get:
+            tags:
+                - Top Cash in Cash Out
+            summary: Get top agents by transaction volume
+            description: Retrieve the top agents based on transaction volume.
+            responses:
+                "200":
+                    description: Successful response with agent transaction volume details
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        agentId:
+                                            type: string
+                                            description: The ID of the agent.
+                                        transactionVolume:
+                                            type: number
+                                            description: Total transaction volume.
+                "500":
+                    description: Internal server error
