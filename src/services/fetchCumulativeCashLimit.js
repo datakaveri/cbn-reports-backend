@@ -1,16 +1,26 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const fetchCumulativeCashLimit = async (date) => {
+const fetchCumulativeCashLimit = async (startDate, endDate) => {
 	try {
-		// Fetch cumulative cash limit grouped by BVN
+		// Fetch cumulative cash limit grouped by cardNumber
 		const results = await prisma.pOSAggregate.groupBy({
-			by: ["cardNumber"], // Group by cardNumber first
+			by: ["cardNumber", "date"], // Group by cardNumber and date
 			_sum: {
 				volume: true, // Aggregate sum of volume
 			},
 			where: {
-				date: new Date(date), // Filter by the provided date
+				date: {
+					gte: new Date(startDate),
+					lte: new Date(endDate), // Filter by the provided date
+				},
+			},
+			having: {
+				volume: {
+					_sum: {
+						gt: 1000, // Only include groups where the sum of volume is greater than 1000
+					},
+				},
 			},
 		});
 
@@ -43,6 +53,7 @@ const fetchCumulativeCashLimit = async (date) => {
 			if (!acc[bvn]) {
 				acc[bvn] = {
 					bvn,
+					date: result.date,
 					transactionSum: 0,
 					percentage: 0,
 				};
@@ -53,9 +64,7 @@ const fetchCumulativeCashLimit = async (date) => {
 		}, {});
 
 		// Convert the grouped results to an array
-		return Object.values(groupedResults).filter(
-			(item) => item.transactionSum > 1000 // Apply HAVING clause
-		);
+		return Object.values(groupedResults);
 	} catch (error) {
 		console.error("Error in fetchCumulativeCashLimit:", error);
 		throw error;

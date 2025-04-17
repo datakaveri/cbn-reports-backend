@@ -1,14 +1,17 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-const fetchAgentBankingLimit = async (date) => {
+const fetchAgentBankingLimit = async (startDate, endDate) => {
 	const results = await prisma.pOSAggregate.groupBy({
-		by: ["posId"], // Group by posId first
+		by: ["posId", "date"], // Group by posId and date
 		_sum: {
-			volume: true,
+			volume: true, // Aggregate sum of volume
 		},
 		where: {
-			date: new Date(date), // Filter by the provided date
+			date: {
+				gte: new Date(startDate),
+				lte: new Date(endDate), // Filter by the provided date
+			},
 		},
 		having: {
 			volume: {
@@ -19,7 +22,7 @@ const fetchAgentBankingLimit = async (date) => {
 		},
 	});
 
-	// Fetch merchantAgentCode for each posId where category = 'Agent'
+	// Fetch merchantAgentCode and location for each posId where category = 'Agent'
 	const agentDetails = await prisma.merchantAgentInventory.findMany({
 		where: {
 			posId: {
@@ -30,26 +33,34 @@ const fetchAgentBankingLimit = async (date) => {
 		select: {
 			posId: true,
 			merchantAgentCode: true,
+			location: true,
 		},
 	});
 
-	// Map posId to merchantAgentCode
+	// Map posId to merchantAgentCode and location
 	const agentMap = agentDetails.reduce((map, agent) => {
 		if (agent.merchantAgentCode) {
 			// Ensure merchantAgentCode is not null
-			map[agent.posId] = agent.merchantAgentCode;
+			map[agent.posId] = {
+				merchantAgentCode: agent.merchantAgentCode,
+				location: agent.location,
+			};
 		}
 		return map;
 	}, {});
 
-	// Transform the results to group by merchantAgentCode
+	// Transform the results to include merchantAgentCode, location, and percentage
 	const groupedResults = results.reduce((acc, result) => {
-		const merchantAgentCode = agentMap[result.posId];
-		if (!merchantAgentCode) return acc; // Skip if merchantAgentCode is null or undefined
+		const agentInfo = agentMap[result.posId];
+		if (!agentInfo) return acc; // Skip if no agent information is found
+
+		const { merchantAgentCode, location } = agentInfo;
 
 		if (!acc[merchantAgentCode]) {
 			acc[merchantAgentCode] = {
 				merchantAgentCode,
+				location,
+				date: result.date,
 				transactionSum: 0,
 				percentage: 0,
 			};
