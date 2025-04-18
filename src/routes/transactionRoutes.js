@@ -27,6 +27,7 @@ router.get(
 	"/cashlimit/agent/cumulative",
 	cashLimitController.getCumulativeCashLimit
 );
+router.get("/cashlimit/atm", cashLimitController.getCumulativeCashLimit);
 
 router.get("/compliance/merchant", complianceController.getMerchantCompliance);
 router.get("/compliance/agent", complianceController.getAgentCompliance);
