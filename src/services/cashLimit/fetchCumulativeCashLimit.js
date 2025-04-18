@@ -103,7 +103,8 @@ const fetchCumulativeCashLimit = async (startDate, endDate) => {
 				};
 			}
 			acc[bvn].transactionSum += result._sum.volume;
-			acc[bvn].percentage += (result._sum.volume / 1000) * 100 - 100;
+			acc[bvn].percentage +=
+				(result._sum.volume / transactionLimit.limit) * 100 - 100;
 			return acc;
 		}, {});
 
